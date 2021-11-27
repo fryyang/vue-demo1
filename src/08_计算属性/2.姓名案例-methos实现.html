@@ -13,7 +13,6 @@
     
     <body>
       <!--
-         
       -->
       <!--准备好一个容器-->
       <div id="root">
@@ -21,6 +20,9 @@
             名：<input type="text" v-model="lastName"> <br>
             <!-- 姓名：<span>{{firstName +"-"+ lastName}}</span> -->
             <!-- 姓名：<span>{{firstName}}-{{lastName}}</span> -->
+            <!-- 姓名：<span>{{fullName()}}</span> 
+            姓名：<span>{{fullName()}}</span> 
+            姓名：<span>{{fullName()}}</span>  -->
             姓名：<span>{{fullName()}}</span> 
       </div>
     </body>
@@ -35,6 +37,7 @@
             },
             methods:{
               fullName(){
+                console.log("get invoke")
                 return this.firstName + "-" + this.lastName
               }
             }

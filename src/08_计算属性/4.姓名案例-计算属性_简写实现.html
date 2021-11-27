@@ -42,19 +42,25 @@
             },
             //计算属性
             computed:{
-              fullName: {
-                //get有什么作用？当有人在读取fullName时，get就会被调用，且返回值就作为fullName的值
-                //get什么时候调用？1.初次读取fullName时。2，所依赖的数据发生变化时
-                get(){
+              //简写
+              // fullName:function(){
+              fullName(){
                   console.log("get invoke")
                   return this.firstName + "-" + this.lastName
-                },
-                set(value){
-                  console.log("set invoke value:" + value)
-                  this.firstName = value.split("-")[0]
-                  this.lastName = value.split("-")[1]
-                }
               }
+              // fullName: {
+                // //完整写法
+                // get(){
+                //   console.log("get invoke")
+                //   return this.firstName + "-" + this.lastName
+                // },
+                // set(value){
+                //   console.log("set invoke value:" + value)
+                //   this.firstName = value.split("-")[0]
+                //   this.lastName = value.split("-")[1]
+                // }
+              // }
+
             }
         })
     </script>
