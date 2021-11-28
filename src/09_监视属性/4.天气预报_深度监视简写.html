@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+      <meta charset="utf-8"/>
+      <title>天气预报-监视属性简写</title>
+      <script type="text/javascript" src="../js/vue.js"></script>
+
+      <style>
+        
+      </style>
+    </head>
+    
+    <body>
+      <!--
+        深度监视：
+          （1）vue的watch默认不监视对象内部值的改变（一层）。
+          （2）给watch配置deep：true可以监测内部值的改变（多层）。
+      -->
+      <!--准备好一个容器-->
+      <div id="root">
+            <h2>今天天气很{{info}}</h2>
+            <!-- <button @click=changeIsHot()>切换天气</button> -->
+            <button @click="isHot = !isHot">切换天气</button>
+            <br>
+            <h3>a的值是：{{numbers.a}}</h3>
+            <button @click="numbers.a++">点我让a+1</button>
+            <h3>b的值是：{{numbers.b}}</h3>
+            <button @click="numbers.b++">点我让b+1</button>
+      </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false //阻止 vue在启动时生成生产提示
+        const vm = new Vue({
+          el:'#root',
+          data() {
+            return {
+              isHot:true,
+              numbers:{
+                a:1,
+                b:1
+              }
+            }
+          },
+          methods: {
+            changeIsHot(){
+              this.isHot = !this.isHot
+            }
+          },
+          computed:{
+            info(){
+              return this.isHot ? '炎热':'凉爽'
+            }
+          },
+          watch:{
+            deep:true,
+            // isHot:{
+            //   //初始化时让handler调用一下
+            //   immediate:true,
+            //   //handle什么时候被调用？当isHot发生改变的时候
+            //   handler(newvalue, oldValue){
+            //     console.log("ishot be changed!" + newvalue + "    " + oldValue)
+            //   }
+            // },
+            // numbers:{
+            //   deep:true,
+            //   handler(){
+            //     console.log("number be changed")
+            //   }
+            // }
+            // isHot(newvalue, oldValue){
+            //   console.log("ishot be changed!" + newvalue + "    " + oldValue)
+            // },
+            // numbers(){
+
+            // }
+          }
+        })
+        //完整写法  
+        // vm.$watch('isHot', {
+        //   //初始化时让handler调用一下
+        //   immediate:true,
+        //   //handle什么时候被调用？当isHot发生改变的时候
+        //   handler(newvalue, oldValue){
+        //     console.log("ishot be changed!" + newvalue + "    " + oldValue)
+        //   }
+        // })
+        //简写
+        vm.$watch('isHot',function(newvalue, oldValue){
+          console.log("ishot be changed!" + newvalue + "    " + oldValue)
+        })
+    </script>
+    
+</html>
