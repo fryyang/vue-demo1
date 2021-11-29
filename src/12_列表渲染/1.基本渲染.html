@@ -13,16 +13,25 @@
     
     <body>
       <!--
-         
+         v-for指令
+            1.用于展示列表数据
+            2.语法 v-for="(item, index) in items" :key="index"
+            3.可遍历：数组、对象、字符串（少）、指定次数（少）
       -->
       <!--准备好一个容器-->
       <div id="root">
            <!-- <h2 v-show=a>欢迎来到{{name}}</h2> -->
-           <h2 v-if=a>欢迎来到{{name}}</h2>
-           <button @click='n++'>点击我n+1</button>
-           <h2 v-if='n == 1'>Anglar</h2>
-           <h2 v-if='n == 2'>React</h2>
-           <h2 v-if='n == 3'>Vue</h2>
+           <h2>人员列表</h2>
+           <ul>
+             <!--遍历数组-->
+             <!-- <li v-for="(p, index) in persons" :key="index">
+              {{index}}        {{p.id}}       {{p.name}}        {{p.age}}
+             </li> -->
+             <!--遍历对象-->
+             <li v-for="(value,key) in car" :key="index">
+              {{index}}        {{key}}       {{value}}
+             </li>
+            </ul>
       </div>
     </body>
 
@@ -33,7 +42,17 @@
             data:{
                 name:'尚硅谷',
                 a:true,
-                n:0
+                n:0,
+                persons:[
+                  {id:1, name:"zhangsan", age:10},
+                  {id:2, name:"lisu", age:15},
+                  {id:3, name:"wangwu", age:20},
+                ],
+                car:{
+                  name:'beijing',
+                  type:'电动',
+                  number:100
+                }
             }
         })
     </script>
