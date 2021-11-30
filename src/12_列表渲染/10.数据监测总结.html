@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+      <meta charset="utf-8"/>
+      <title>vue是如何监测属性的改变_数组-vue-P36</title>
+      <script type="text/javascript" src="../js/vue.js"></script>
+
+      <style>
+        
+      </style>
+    </head>
+    
+    <body>
+      <!--
+         数组更新方法
+         Vue.set()
+         Array.pop()
+         Array.push()
+         Array.splice()
+         Array.shift()
+         Array.unShift()
+         Array.sort()
+         Array.reverse()
+      -->
+      <!--准备好一个容器-->
+      <div id="root">
+           <!-- <h2 v-show=a>欢迎来到{{name}}</h2> -->
+           <h2>学校名称: {{name}}</h2>
+           <h2>学校地址: {{address}}</h2>
+           <hr>
+           <h2>学生姓名: {{student.name}}</h2>
+           <h2 v-if="student.sex">学生姓名: {{student.sex}}</h2>
+           <h2>学生年龄: 真实：{{student.age.rAge}}   虚拟：{{student.age.sAge}}</h2>
+           <h2>学生朋友们：</h2>
+           <button @click='addSex'>点我给学生增加 一个性别</button>
+           <ul>
+             <li v-for="(friend, index) in student.friends" :key="index">
+                {{friend.name}}        {{friend.age}}
+             </li>
+           </ul>
+           <br>
+           <h2>爱好</h2>
+           <ul>
+            <li v-for="(h, index) in student.hobby" :key="index">
+               {{h}}
+            </li>
+          </ul>
+      </div>
+    </body>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false
+        
+        const vm = new Vue({
+          el:'#root',
+          data:{
+            name:'尚硅谷',
+            address:'北京',
+            student:{
+              name:'Tom',
+              age:{
+                rAge:40,
+                sAge:18
+              },
+              hobby:[
+                'music','game','guiter',
+              ],
+              friends:[
+              {name:'jerry',age:35},
+              {name:'tony',age:36}
+            ]
+            }
+          },
+          methods: {
+            addSex(){
+              //Vue.set(vm.student, 'sex', '男')
+              vm.$set(vm.student, 'sex', '男')
+            }
+          },
+        })
+    </script>
+    
+</html>
