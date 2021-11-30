@@ -13,28 +13,45 @@
     
     <body>
       <!--
-         数组更新方法
-         Vue.set()
-         Array.pop()
-         Array.push()
-         Array.splice()
-         Array.shift()
-         Array.unShift()
-         Array.sort()
-         Array.reverse()
+         Vue监测数据原理：
+          1.Vue会监视data中所有层次的数据。
+
+          2.如何监测对象中的数据？
+            通过setter实现数据监视，且要在new Vue时就传入要监测的数据
+              (1).对象中后追加的属性，Vue默认不做响应式处理
+              (2).如需给后添加的属性做响应式，请使用如下API：
+                  Vue.$set(target, propertyName/Index, value) 或
+                  vm.$set(target, propertyName/Index, value)
+
+          3.如何监测数组中的数据？
+            通过包裹数组更新元素的方法实现，本质就是做两件事：
+              (1).调用原生对应的方法对数组进行更新
+              (2).重新解析模板，进而更新页面
+              
+          4.在Vue修改数组中的某一元素，一定要用如下方法
+            1.使用这些API：pop()、push()、shift()、unshift()、splice()、sort()、reverse()
+            2.Vue.set()或Vue.$set()
+            
+          特别注意：Vue.set()或Vue.$set不能给vue的根数据对象添加属性！！！  
       -->
       <!--准备好一个容器-->
       <div id="root">
+          <h1>学校信息：</h1>
+          <button @click="student.age++">学生年龄+1</button><br>
+          <button @click="addSex">添加性别属性默认值：男</button><br>
+          <button @click="addFriend">在列表首位添加一个学生朋友</button><br>
+          <button @click="updateFriend">修改第一位朋友的名字为张三</button><br>
+          <button @click="addHobby">添加一个爱好</button><br>
+          <button @click="updateHobby">修改第一个爱好为开车</button><br>
            <!-- <h2 v-show=a>欢迎来到{{name}}</h2> -->
-           <h2>学校名称: {{name}}</h2>
-           <h2>学校地址: {{address}}</h2>
-           <hr>
-           <h2>学生姓名: {{student.name}}</h2>
-           <h2 v-if="student.sex">学生姓名: {{student.sex}}</h2>
-           <h2>学生年龄: 真实：{{student.age.rAge}}   虚拟：{{student.age.sAge}}</h2>
-           <h2>学生朋友们：</h2>
-           <button @click='addSex'>点我给学生增加 一个性别</button>
-           <ul>
+          <h2>学校名称: {{name}}</h2>
+          <h2>学校地址: {{address}}</h2>
+          <hr>
+          <h2>学生姓名: {{student.name}}</h2>
+          <h2 v-if="student.sex">学生性别: {{student.sex}}</h2>
+          <h2>学生年龄: {{student.age}}</h2>
+          <h2>学生朋友们：</h2>
+          <ul>
              <li v-for="(friend, index) in student.friends" :key="index">
                 {{friend.name}}        {{friend.age}}
              </li>
@@ -59,10 +76,7 @@
             address:'北京',
             student:{
               name:'Tom',
-              age:{
-                rAge:40,
-                sAge:18
-              },
+              age:18,
               hobby:[
                 'music','game','guiter',
               ],
@@ -75,7 +89,21 @@
           methods: {
             addSex(){
               //Vue.set(vm.student, 'sex', '男')
-              vm.$set(vm.student, 'sex', '男')
+              this.$set(this.student, 'sex', '男')
+            },
+            addFriend(){
+              this.student.friends.unshift({name:'jack',age:25})
+            },
+            updateFriend(){
+              this.student.friends[0].name = '张三'
+              // this.$set(this.friends[0], 'name', '张三')
+            },
+            addHobby(){
+              this.student.hobby.push('run')
+            },
+            updateHobby(){
+              //this.student.hobby.splice(0,1,'car')
+              Vue.set(this.student.hobby, 0, 'car')
             }
           },
         })
